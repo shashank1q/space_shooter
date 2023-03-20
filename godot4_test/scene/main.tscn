@@ -1,0 +1,173 @@
+[gd_scene load_steps=11 format=3 uid="uid://bwkaxv3keimjb"]
+
+[ext_resource type="Shader" path="res://shaders/move.gdshader" id="1_d6mj1"]
+[ext_resource type="Script" path="res://code/main.gd" id="1_wjqaw"]
+[ext_resource type="Texture2D" uid="uid://cuoevdt8yw4lp" path="res://images/background.jpg" id="2_r2u7f"]
+[ext_resource type="PackedScene" uid="uid://dhl2g7exvfbad" path="res://scene/player.tscn" id="4_cyxm8"]
+[ext_resource type="Shader" path="res://shaders/fog.gdshader" id="5_lmsav"]
+[ext_resource type="Texture2D" uid="uid://w1wdwm8esq8t" path="res://images/fog_background.png" id="6_x5mi3"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_j63cs"]
+shader = ExtResource("1_d6mj1")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gm3qu"]
+shader = ExtResource("5_lmsav")
+
+[sub_resource type="LabelSettings" id="LabelSettings_66gwg"]
+font_size = 27
+font_color = Color(0.937255, 0.631373, 0.368627, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_wpkpk"]
+font_size = 40
+font_color = Color(0.956863, 0, 0.211765, 1)
+
+[node name="world" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_wjqaw")
+
+[node name="background" type="TextureRect" parent="."]
+texture_repeat = 2
+material = SubResource("ShaderMaterial_j63cs")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_r2u7f")
+stretch_mode = 1
+
+[node name="player" parent="." instance=ExtResource("4_cyxm8")]
+position = Vector2(213, 537)
+
+[node name="fog" type="TextureRect" parent="."]
+texture_repeat = 2
+material = SubResource("ShaderMaterial_gm3qu")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -924.0
+offset_top = -1176.0
+offset_right = 924.0
+offset_bottom = 1176.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("6_x5mi3")
+stretch_mode = 1
+flip_v = true
+
+[node name="left_spawn_pos" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 0
+offset_top = -95.0
+offset_bottom = -95.0
+
+[node name="right_spawn_pos" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_top = -95.0
+offset_bottom = -95.0
+grow_horizontal = 0
+
+[node name="Timer" type="Timer" parent="."]
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="score" type="Label" parent="UI"]
+offset_left = 18.0
+offset_top = 18.0
+offset_right = 181.0
+offset_bottom = 49.0
+text = "Score: 0"
+label_settings = SubResource("LabelSettings_66gwg")
+
+[node name="life" type="Label" parent="UI"]
+offset_left = 18.0
+offset_top = 56.0
+offset_right = 181.0
+offset_bottom = 94.0
+text = "Lives: 5"
+label_settings = SubResource("LabelSettings_66gwg")
+
+[node name="background" type="ColorRect" parent="UI"]
+process_mode = 3
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.34902)
+
+[node name="Label" type="Label" parent="UI/background"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -86.0
+offset_right = 20.0
+offset_bottom = -63.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Game Over"
+label_settings = SubResource("LabelSettings_wpkpk")
+
+[node name="restart" type="Button" parent="UI/background"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -86.0
+offset_top = -16.0
+offset_right = 86.0
+offset_bottom = 31.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 20
+text = "restart"
+
+[node name="exit" type="Button" parent="UI/background"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -69.0
+offset_top = 54.0
+offset_right = 69.0
+offset_bottom = 101.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 20
+text = "Exit"
+
+[node name="player_pos" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_top = -106.0
+offset_bottom = -106.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[connection signal="player_hit" from="player" to="." method="_on_player_player_hit"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="pressed" from="UI/background/restart" to="." method="_on_restart_pressed"]
+[connection signal="pressed" from="UI/background/exit" to="." method="_on_exit_pressed"]
