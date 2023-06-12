@@ -5,7 +5,7 @@ var enemy = preload("res://scene/enemy.tscn")
 var score = 0
 
 func _ready():
-	$player.global_position = $player_pos.global_position
+	#$player.global_position = $player_pos.global_position
 	timer.start(2.0)
 
 func _on_timer_timeout():
@@ -17,7 +17,7 @@ func _on_timer_timeout():
 		inst.position = $left_spawn_pos.position
 	else:
 		inst.position = $right_spawn_pos.position
-	timer.start(randi()%5)
+	timer.start(randi()%4)
 
 func _on_enemy_die():
 	score += 1

@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://bwkaxv3keimjb"]
+[gd_scene load_steps=12 format=3 uid="uid://bwkaxv3keimjb"]
 
 [ext_resource type="Shader" path="res://shaders/move.gdshader" id="1_d6mj1"]
 [ext_resource type="Script" path="res://code/main.gd" id="1_wjqaw"]
@@ -21,6 +21,9 @@ font_color = Color(0.937255, 0.631373, 0.368627, 1)
 font_size = 40
 font_color = Color(0.956863, 0, 0.211765, 1)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qbfkf"]
+size = Vector2(20, 228)
+
 [node name="world" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -40,10 +43,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_r2u7f")
-stretch_mode = 1
-
-[node name="player" parent="." instance=ExtResource("4_cyxm8")]
-position = Vector2(213, 537)
 
 [node name="fog" type="TextureRect" parent="."]
 texture_repeat = 2
@@ -167,7 +166,43 @@ offset_bottom = -106.0
 grow_horizontal = 2
 grow_vertical = 0
 
-[connection signal="player_hit" from="player" to="." method="_on_player_player_hit"]
+[node name="player" parent="player_pos" instance=ExtResource("4_cyxm8")]
+position = Vector2(-20, -34)
+
+[node name="left wall" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -40.0
+offset_right = 40.0
+grow_vertical = 0
+
+[node name="StaticBody2D" type="StaticBody2D" parent="left wall"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="left wall/StaticBody2D"]
+position = Vector2(0, -102)
+shape = SubResource("RectangleShape2D_qbfkf")
+
+[node name="right wall" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -40.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="StaticBody2D" type="StaticBody2D" parent="right wall"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="right wall/StaticBody2D"]
+position = Vector2(40, -102)
+shape = SubResource("RectangleShape2D_qbfkf")
+
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="pressed" from="UI/background/restart" to="." method="_on_restart_pressed"]
 [connection signal="pressed" from="UI/background/exit" to="." method="_on_exit_pressed"]
+[connection signal="player_hit" from="player_pos/player" to="." method="_on_player_player_hit"]
