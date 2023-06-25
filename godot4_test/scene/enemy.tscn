@@ -1,25 +1,23 @@
-[gd_scene load_steps=4 format=3 uid="uid://1y6cnw73hcsh"]
+[gd_scene load_steps=4 format=3 uid="uid://cc3l67kq0qmof"]
 
-[ext_resource type="Texture2D" uid="uid://bogego0v5lukg" path="res://images/enemy.png" id="1_c8fpq"]
-[ext_resource type="Script" path="res://code/enemy.gd" id="1_dvmcl"]
+[ext_resource type="Script" path="res://code/enemy.gd" id="1_eufya"]
+[ext_resource type="Texture2D" uid="uid://cms42t6rrj5ph" path="res://images/enemy.png" id="1_gsf58"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_l2j1r"]
-radius = 53.6004
+[sub_resource type="CircleShape2D" id="CircleShape2D_e456w"]
+radius = 56.0357
 
-[node name="enemy" type="CharacterBody2D" groups=["enemy"]]
-collision_layer = 2
-script = ExtResource("1_dvmcl")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-1, 6)
-shape = SubResource("CircleShape2D_l2j1r")
+[node name="enemy" type="CharacterBody2D"]
+script = ExtResource("1_eufya")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_c8fpq")
+texture = ExtResource("1_gsf58")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_e456w")
 
 [node name="Timer" type="Timer" parent="."]
 
 [node name="bullet_pos" type="Marker2D" parent="."]
-position = Vector2(0, 34)
+position = Vector2(0, 37)
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

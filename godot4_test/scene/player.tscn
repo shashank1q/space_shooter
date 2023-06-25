@@ -1,39 +1,25 @@
-[gd_scene load_steps=5 format=3 uid="uid://dhl2g7exvfbad"]
+[gd_scene load_steps=4 format=3 uid="uid://byv4j13nhskjh"]
 
-[ext_resource type="Texture2D" uid="uid://dcpee7sdtqx01" path="res://images/player.png" id="1_dg82h"]
-[ext_resource type="Script" path="res://code/player.gd" id="1_laa5h"]
+[ext_resource type="Script" path="res://code/player.gd" id="1_lner4"]
+[ext_resource type="Texture2D" uid="uid://bbiaj34gtnurb" path="res://images/player.png" id="1_x7v6u"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_onn0w"]
-radius = 31.0019
-height = 108.008
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_f8wy3"]
-radius = 43.0
-height = 122.0
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_d1r0m"]
+radius = 39.0
+height = 118.0
 
 [node name="player" type="CharacterBody2D"]
-slide_on_ceiling = false
-script = ExtResource("1_laa5h")
+script = ExtResource("1_lner4")
 
-[node name="CollisionShape" type="CollisionShape2D" parent="."]
-rotation = -1.5708
-shape = SubResource("CapsuleShape2D_onn0w")
-debug_color = Color(0.968627, 0, 0.454902, 0.431373)
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_x7v6u")
 
-[node name="shoot_pos" type="Marker2D" parent="."]
-position = Vector2(0, -27)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_d1r0m")
 
 [node name="Timer" type="Timer" parent="."]
 
-[node name="Sprite" type="Sprite2D" parent="."]
-texture = ExtResource("1_dg82h")
-
-[node name="Area2D" type="Area2D" parent="."]
-collision_mask = 2
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-rotation = -1.57079
-shape = SubResource("CapsuleShape2D_f8wy3")
+[node name="Marker2D" type="Marker2D" parent="."]
+position = Vector2(0, -37)
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
-[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
