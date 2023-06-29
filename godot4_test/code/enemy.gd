@@ -1,13 +1,18 @@
 extends CharacterBody2D
 
-# size of the screen
-var width = 0
-# direction of movement( -1 means left direction)
-var direction = -1
+signal enemy_die
+
 # references to bullet scene
 var bullet = preload("res://scene/enemy_bullet.tscn")
 # for checking whether we can shoot or not
 var can_shoot = false
+# health of the enemy
+var health = 5
+# size of the screen
+var width = 0
+# direction of movement( -1 means left direction)
+var direction = -1
+
 
 func _ready():
 	# start shooting after 2 sec
@@ -31,15 +36,14 @@ func _physics_process(delta):
 		direction = 1
 		var tween = get_tree().create_tween()
 		tween.tween_property(self,"position:y", position.y + 100,1.0)
-	
+
 	if can_shoot:
 		shoot()
 		# starting timer for a random time from 1 to 5 sec
 		$Timer.start(randi() % 5 +1)
 		# stops shooting until timmer is running
 		can_shoot = false
-	
-	
+
 	# moving left or right 
 	velocity.x = direction * 20000 * delta
 	move_and_slide()
@@ -51,8 +55,17 @@ func shoot():
 	# setting position of the bullet.
 	inst.global_position = $bullet_pos.global_position
 
-
 func _on_timer_timeout():
 	# enabling the enemy to shoot again
 	can_shoot = true
 	$Timer.stop()
+
+func take_damage():
+	health -= 1
+	# when enemy dies
+	if health == 0:
+		# deleting the enemy from the game.
+		queue_free()
+		# emiting signal so, score can be updated on the UI
+		emit_signal("enemy_die")
+

@@ -6,7 +6,7 @@ func _process(delta):
 	translate(Vector2(0,-1) * 1000 * delta)
 
 # triggered when our bullet get out of the screen 
-func _on_visible_on_screen_notifier_2d_screen_exited():
+func _on_visibility_notifier_screen_exited():
 	# deleting the bullet from the game
 	queue_free()
 
@@ -23,3 +23,4 @@ func _on_area_2d_body_entered(body):
 		await  get_tree().create_timer(0.2).timeout
 		# deleting the bullet
 		queue_free()
+

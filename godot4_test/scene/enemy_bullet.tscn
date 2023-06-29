@@ -1,23 +1,24 @@
-[gd_scene load_steps=4 format=3 uid="uid://b3he4vb8d33p5"]
+[gd_scene load_steps=4 format=3 uid="uid://b2hescsq58ojp"]
 
-[ext_resource type="Texture2D" uid="uid://da0qaat4borf7" path="res://images/enemy bullet.png" id="1_a5j40"]
-[ext_resource type="Script" path="res://code/enemy_bullet.gd" id="2_82ifa"]
+[ext_resource type="Texture2D" uid="uid://b83ho1ykqrg0u" path="res://images/enemy bullet.png" id="1_8jw3r"]
+[ext_resource type="Script" path="res://code/enemy_bullet.gd" id="2_7n2g2"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_78qci"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_s8mn3"]
 radius = 7.0
-height = 58.0
+height = 56.0
 
-[node name="Sprite2D" type="Sprite2D"]
-texture = ExtResource("1_a5j40")
-script = ExtResource("2_82ifa")
+[node name="enemy_bullet" type="Sprite2D"]
+texture = ExtResource("1_8jw3r")
+script = ExtResource("2_7n2g2")
 
 [node name="Area2D" type="Area2D" parent="."]
+collision_layer = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-shape = SubResource("CapsuleShape2D_78qci")
+shape = SubResource("CapsuleShape2D_s8mn3")
 
-[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
-scale = Vector2(1, 3)
+[node name="visibility_notifier" type="VisibleOnScreenNotifier2D" parent="."]
+scale = Vector2(0.8, 2.8)
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
-[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
+[connection signal="screen_exited" from="visibility_notifier" to="." method="_on_visibility_notifier_screen_exited"]
